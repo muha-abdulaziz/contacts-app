@@ -34,7 +34,7 @@ describe('Check Authintication of /contacts', function checkAuth() {
           [method]('/contacts')
           .set('Authorisation', 'fskjvbjfdv')
           .then(req => {
-            expect(req).to.have.status(403);
+            expect(req).to.have.status(401);
           });
       });
     }); // end of for each methods
