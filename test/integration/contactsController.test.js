@@ -14,7 +14,14 @@ describe('Check Authintication of /contacts', function checkAuth() {
   describe('must forbidden when no Authorisation header', function forbidden() {
     const methods = ['get', 'post'];
     methods.forEach(method => {
-      it(`${method} /contacts`);
+      it(`${method} /contacts`, async function() {
+        await chai
+          .request(app)
+          [method]('/contacts')
+          .then(req => {
+            expect(req).to.have.status(403);
+          });
+      });
     }); // end of for each methods
   }); // end of forbidden function
 
