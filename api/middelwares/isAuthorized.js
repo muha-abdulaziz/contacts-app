@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
   }
 
   if (req.headers.authorisation) {
-    const token = 'req.headers.authorisation';
+    const token = req.headers.authorisation;
     if (accessToken.verify(token)) {
       // add user data (mock the token payload)
       req.user = {
