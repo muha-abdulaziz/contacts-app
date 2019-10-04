@@ -3,7 +3,11 @@ const contacts = [];
 module.exports = {
   add: contact => {},
 
-  find: () => {},
+  find: () => {
+    return new Promise(resolve => {
+      resolve(contacts);
+    });
+  },
 
   findById: id => {},
 
