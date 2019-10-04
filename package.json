@@ -4,8 +4,9 @@
   "description": "simple contact management service (RESTful API)",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run int-test && npm run unit-test",
     "int-test": "mocha test/integration/*.test.js",
+    "unit-test": "mocha test/unit/*.test.js",
     "precommit": "lint-staged",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix || true"
