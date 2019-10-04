@@ -28,7 +28,15 @@ describe('Check Authintication of /contacts', function checkAuth() {
   describe('must not authorize when invalid token provided', function notAuthorize() {
     const methods = ['get', 'post'];
     methods.forEach(method => {
-      it(`${method} /contacts`);
+      it(`${method} /contacts`, async function() {
+        await chai
+          .request(app)
+          [method]('/contacts')
+          .set('Authorisation', 'fskjvbjfdv')
+          .then(req => {
+            expect(req).to.have.status(403);
+          });
+      });
     }); // end of for each methods
   }); // end of notAuthorize function
 }); // end of checkAuth function
