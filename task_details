@@ -1,0 +1,26 @@
+
+Backend developer:
+- Use NodeJS to develop a Restful API to:
+    - Add/Edit/Delete contacts
+    - Retrieve all contacts
+    - Search for a contact
+- Assumptions:
+    - Use any framework or library of your choice.
+    - Use in-memory data storage - no need implement connections to a DB.
+    - You will receive an auth token in the request header ‘Authorisation’ field for authentication with value ‘MY_SECRET_ENCRYPTED_TOKEN’. Use this token to authenticate the user.
+    - Single contact details:
+        - Name
+        - Email
+        - Phone(s) - can add more than one phone number
+        - UserID - Authenticated user
+- What we look for:
+    - Clean and readable code
+    - Modular code base with good project hierarchy
+    - Testable code
+    - Well organised git commits in small chunks
+- Deliverables:
+    - ReadMe that includes installation, running instructions and any other assumptions you have made.
+    - Git repository for your solution.
+    - Add the username “sokkary” as a collaborator to your git project repository, then create a “Pull request” contains your code and assign “sokkary” as a reviewer.
+- Duration:
+    - Time box your task to 1 ~ 2 hours.
