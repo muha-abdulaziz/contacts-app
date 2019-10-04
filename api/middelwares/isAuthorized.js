@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
         id: 1,
       };
 
-      next();
+      return next();
     }
 
     const resMesg = 'You Can not use this resource';
