@@ -9,7 +9,7 @@ const getContact = contactId => {
     contact = contacts[i];
     if (contact.id === contactId) {
       return {
-        index: -1,
+        index: i,
         value: contact,
       };
     }
