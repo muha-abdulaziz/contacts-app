@@ -7,6 +7,10 @@ const contactSchemas = require('./contactValidationSchema');
 
 const router = express.Router();
 
+/**
+ * retreve all contacts
+ * [TODO] separate logic from the controller
+ */
 router.get('/', async (_req, res) => {
   try {
     const contacts = await contactModel.find();
@@ -23,6 +27,10 @@ router.get('/', async (_req, res) => {
   }
 });
 
+/**
+ * create a contact
+ * [TODO] separate logic from the controller
+ */
 router.post('/', async (req, res) => {
   const contact = req.body;
 
@@ -30,7 +38,7 @@ router.post('/', async (req, res) => {
     await validateSchema(contact, contactSchemas.createContact);
   } catch (err) {
     logger.info(`error while validating contact: -> ${err}`);
-    const resBody = responseBody('validation error', err);
+    const resBody = responseBody('validation error', null, err);
     return res.status(422).json(resBody);
   }
 
@@ -48,6 +56,30 @@ router.post('/', async (req, res) => {
 
     return res.status(500).json(resBody);
   }
+});
+
+/**
+ * retreve a contact
+ * [TODO] separate logic from the controller
+ */
+router.get('/:contactId', async (_req, res) => {
+  return res.status(501).send('Not Implemented');
+});
+
+/**
+ * edit a contact
+ * [TODO] separate logic from the controller
+ */
+router.patch('/:contactId', async (_req, res) => {
+  return res.status(501).send('Not Implemented');
+});
+
+/**
+ * delete a contact
+ * [TODO] separate logic from the controller
+ */
+router.delete('/:contactId', async (_req, res) => {
+  return res.status(501).send('Not Implemented');
 });
 
 module.exports = router;
