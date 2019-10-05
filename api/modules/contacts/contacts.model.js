@@ -21,7 +21,24 @@ module.exports = {
     });
   },
 
-  findById: id => {},
+  findById: contactId => {
+    return new Promise((resolve, reject) => {
+      if (!contactId) return reject(new Error('missing param: contactId'));
+      console.log('contactId', contactId);
+
+      let contact;
+      const contactsLen = contacts.length;
+
+      for (let i = 0; i < contactsLen; i++) {
+        contact = contacts[i];
+        if (contact.id === contactId) {
+          return resolve(contact);
+        }
+      }
+
+      return resolve([]);
+    });
+  },
 
   delete: id => {},
 
