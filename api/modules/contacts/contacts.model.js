@@ -66,5 +66,24 @@ module.exports = {
     });
   },
 
-  update: id => {},
+  update: (contactId, newContact) => {
+    return new Promise((resolve, reject) => {
+      if (!contactId) return reject(new Error('missing param: contactId'));
+
+      const contact = getContact(contactId);
+
+      // if index is -1 mean contact not exist
+      if (contact.index === -1) {
+        const notFound = new Error('contact not found');
+        return reject(notFound);
+      }
+
+      // change provided values
+      if (newContact.name) contact.value.name = newContact.name;
+      if (newContact.email) contact.value.email = newContact.email;
+      if (newContact.phones) contact.value.phones = newContact.phones;
+
+      return resolve(contact);
+    });
+  },
 };
