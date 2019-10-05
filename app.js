@@ -9,7 +9,6 @@ const configValidatore = require('./api/utils/configValidatore');
 // verify config vars
 configValidatore();
 
-
 // Express App
 const app = express();
 
@@ -17,7 +16,10 @@ const app = express();
 const routes = require('./api/routes');
 
 // Middlewares
-app.use(morgan('combined'));
+
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('combined'));
+}
 app.use(cors());
 app.use(helmet());
 app.use(compression());
