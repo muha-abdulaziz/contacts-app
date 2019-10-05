@@ -93,8 +93,41 @@ router.get('/:contactId', async (req, res) => {
  * edit a contact
  * [TODO] separate logic from the controller
  */
-router.patch('/:contactId', async (_req, res) => {
-  return res.status(501).send('Not Implemented');
+router.patch('/:contactId', async (req, res) => {
+  let { contactId } = req.params;
+  const contact = req.body;
+
+  try {
+    // validate the contactId
+    await validateSchema(contactId, contactSchemas.contactId);
+    contactId = parseInt(contactId, 10);
+
+    // validate the request body
+    await validateSchema(contact, contactSchemas.editContact);
+  } catch (err) {
+    logger.info(`error while validating contact: -> ${err}`);
+    const resBody = responseBody('validation error', null, err);
+    return res.status(422).json(resBody);
+  }
+
+  try {
+    const newContact = await contactModel.update(contactId, contact);
+
+    const resMesg = 'contact updated successfuly';
+    const resBody = responseBody(resMesg, newContact);
+
+    return res.status(200).json(resBody);
+  } catch (err) {
+    if (err.message === 'contact not found') {
+      const resBody = responseBody(err.message);
+      return res.status(404).json(resBody);
+    }
+
+    logger.error(`error [GET] @contact controller: -> ${err}`);
+    const resBody = responseBody('Server Error');
+
+    return res.status(500).json(resBody);
+  }
 });
 
 /**
