@@ -1,4 +1,5 @@
 const express = require('express');
+const Joi = require('@hapi/joi');
 const responseBody = require('../../utils/responseBody');
 const logger = require('../../utils/logger');
 const validateSchema = require('../../utils/validateSchema');
@@ -62,8 +63,31 @@ router.post('/', async (req, res) => {
  * retreve a contact
  * [TODO] separate logic from the controller
  */
-router.get('/:contactId', async (_req, res) => {
-  return res.status(501).send('Not Implemented');
+router.get('/:contactId', async (req, res) => {
+  let { contactId } = req.params;
+
+  try {
+    await validateSchema(contactId, contactSchemas.contactId);
+    contactId = parseInt(contactId, 10);
+  } catch (err) {
+    logger.info(`error while validating contact: -> ${err}`);
+    const resBody = responseBody('validation error', null, err);
+    return res.status(422).json(resBody);
+  }
+
+  try {
+    const contact = await contactModel.findById(contactId);
+
+    const resMesg = 'contact retreved successfuly';
+    const resBody = responseBody(resMesg, contact);
+
+    return res.status(200).json(resBody);
+  } catch (err) {
+    logger.error(`error [GET] @contact controller: -> ${err}`);
+    const resBody = responseBody('Server Error');
+
+    return res.status(500).json(resBody);
+  }
 });
 
 /**
