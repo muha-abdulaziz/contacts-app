@@ -5,6 +5,9 @@ const email = Joi.string().email();
 const phones = Joi.array()
   .items(Joi.number().integer())
   .min(1);
+const contactId = Joi.number()
+  .integer()
+  .required();
 
 const createContact = Joi.object().keys({
   name: name.required(),
@@ -21,4 +24,5 @@ const editContact = Joi.object().keys({
 module.exports = {
   createContact,
   editContact,
+  contactId,
 };
