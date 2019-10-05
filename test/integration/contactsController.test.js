@@ -71,4 +71,40 @@ describe('test /contacts functionality', function() {
         expect(res.body.data).to.be.an('array');
       });
   });
+
+  it('create a contact successfuly', async function() {
+    const contact = {
+      name: 'foo',
+      email: 'foo@mail.com',
+      phones: ['0012345678909'],
+    };
+
+    await chai
+      .request(app)
+      .post('/contacts')
+      .set('Authorisation', token)
+      .send(contact)
+      .then(res => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.has.property('data');
+        expect(res.body.data).to.be.an('object');
+      });
+  });
+
+  it('return validation error when contact data not complete', async function() {
+    const contact = {
+      email: 'foo@mail.com',
+      phones: ['0012345678909'],
+    };
+
+    await chai
+      .request(app)
+      .post('/contacts')
+      .set('Authorisation', token)
+      .send(contact)
+      .then(res => {
+        expect(res).to.have.status(422);
+      });
+  });
 });
