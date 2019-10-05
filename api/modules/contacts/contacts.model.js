@@ -2,6 +2,24 @@ const contacts = [];
 
 let lastId = 0;
 
+const getContact = contactId => {
+  let contact;
+  const contactsLen = contacts.length;
+  for (let i = 0; i < contactsLen; i++) {
+    contact = contacts[i];
+    if (contact.id === contactId) {
+      return {
+        index: -1,
+        value: contact,
+      };
+    }
+  }
+  return {
+    index: -1,
+    value: [],
+  };
+};
+
 module.exports = {
   add: contact => {
     return new Promise((resolve, reject) => {
@@ -24,19 +42,9 @@ module.exports = {
   findById: contactId => {
     return new Promise((resolve, reject) => {
       if (!contactId) return reject(new Error('missing param: contactId'));
-      console.log('contactId', contactId);
 
-      let contact;
-      const contactsLen = contacts.length;
-
-      for (let i = 0; i < contactsLen; i++) {
-        contact = contacts[i];
-        if (contact.id === contactId) {
-          return resolve(contact);
-        }
-      }
-
-      return resolve([]);
+      const contact = getContact(contactId).value;
+      return resolve(contact);
     });
   },
 
