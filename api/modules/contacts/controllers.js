@@ -1,5 +1,4 @@
 const express = require('express');
-const Joi = require('@hapi/joi');
 const responseBody = require('../../utils/responseBody');
 const logger = require('../../utils/logger');
 const validateSchema = require('../../utils/validateSchema');
@@ -102,8 +101,36 @@ router.patch('/:contactId', async (_req, res) => {
  * delete a contact
  * [TODO] separate logic from the controller
  */
-router.delete('/:contactId', async (_req, res) => {
-  return res.status(501).send('Not Implemented');
+router.delete('/:contactId', async (req, res) => {
+  let { contactId } = req.params;
+
+  try {
+    await validateSchema(contactId, contactSchemas.contactId);
+    contactId = parseInt(contactId, 10);
+  } catch (err) {
+    logger.info(`error while validating contact: -> ${err}`);
+    const resBody = responseBody('validation error', null, err);
+    return res.status(422).json(resBody);
+  }
+
+  try {
+    const contact = await contactModel.delete(contactId);
+
+    const resMesg = 'contact deleted successfuly';
+    const resBody = responseBody(resMesg, contact);
+
+    return res.status(200).json(resBody);
+  } catch (err) {
+    if (err.message === 'contact not found') {
+      const resBody = responseBody(err.message);
+      return res.status(404).json(resBody);
+    }
+
+    logger.error(`error [GET] @contact controller: -> ${err}`);
+    const resBody = responseBody('Server Error');
+
+    return res.status(500).json(resBody);
+  }
 });
 
 module.exports = router;

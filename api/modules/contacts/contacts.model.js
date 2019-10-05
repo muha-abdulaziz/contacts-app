@@ -48,7 +48,23 @@ module.exports = {
     });
   },
 
-  delete: id => {},
+  delete: contactId => {
+    return new Promise((resolve, reject) => {
+      if (!contactId) return reject(new Error('missing param: contactId'));
+
+      const contact = getContact(contactId);
+
+      // if index is -1 mean contact not exist
+      if (contact.index === -1) {
+        const notFound = new Error('contact not found');
+        return reject(notFound);
+      }
+
+      // remove the element
+      contacts.splice(contact.index, contact.index);
+      return resolve(contact);
+    });
+  },
 
   update: id => {},
 };
