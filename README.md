@@ -1,5 +1,9 @@
 # Contact App
 
+A demo app designed to showcase the functionality of a simple API.
+
+## Run the app
+
 To start the app
 
 - Install the app dependances `npm install`
